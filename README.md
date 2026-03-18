@@ -53,7 +53,8 @@ DATA MART EXPORT LAYER
 - Fix age outliers: replace 0 with minimum valid age, cap at 95
 - Replace empty strings with nulls
 - Add `resp_id` and `resp_id_rand` identifiers
-- Apply geographic rule: if respondent is outside the Philippines, set `city_non_ph` to Not Applicable
+- Apply geographic rule: if country is not Philippines, set `city_ph` to Not Applicable
+- HITL - human edits for some respondents who filled up province in city_ph and PH city in city_non_ph
 
 **Outputs:**
 - `csv_outputs_dir/df_raw.csv`
@@ -176,7 +177,7 @@ Data_mart_staging and data_mart for storage
 
 ### DuckDB
 - `survey.duckdb`
-- Tables: `df_raw`, `df_single_no_grps`, `df_single_with_grps`, `df_multi`, all `{col}_exploded_cleaned` tables, `df_all_geo_clean`, `df_possible_duplicates`
+- Tables: `df_single_with_grps`, all `{col}_exploded_cleaned` tables, `df_all_geo_clean`
 
 ### SQLite
 - `survey.sqlite`
@@ -190,7 +191,7 @@ Data_mart_staging and data_mart for storage
 ### Final Consumption
 - Tableau connects to DuckDB or `for_tableau.xlsx`
 - SQLite used for quick SQL validation queries
-- Python report scripts consume `final_outputs_dir/df_single_with_grps.csv` and `*_exploded_cleaned.csv` directly
+- Python [report](https://sandygcabanes.github.io/2025-2026-DEP-State-of-the-Community-Survey-Results/) scripts consume `final_outputs_dir/df_single_with_grps.csv` and `*_exploded_cleaned.csv` directly
 
 ---
 
