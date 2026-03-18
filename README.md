@@ -59,6 +59,7 @@ DATA MART EXPORT LAYER
 - `csv_outputs_dir/df_raw.csv`
 - `parquet_outputs/df_raw.parquet`
 
+
 ---
 
 ## Stage 2: Single-Response Family
@@ -86,10 +87,10 @@ Handles all questions with a single answer per respondent.
 **Outputs:**
 - `csv_outputs_dir/df_single_no_grps.csv`
 - `csv_outputs_dir/df_sim_sorted.csv`
-- `csv_outputs_dir/df_likely_dups.csv`
+- `csv_outputs_dir/table_of_likely_dups.csv`
 - `csv_outputs_dir/df_possible_duplicates.csv`
 
-### 2c. Age and Salary Grouping
+### 2c. Age, Salary and PH Region Grouping
 
 **Input:** `df_single_no_grps`
 
@@ -102,6 +103,10 @@ Handles all questions with a single answer per respondent.
 - `csv_outputs_dir/df_single_with_grps.csv`
 - `final_outputs_dir/df_single_with_grps.csv`
 - `parquet_outputs_dir/df_single_with_grps.parquet`
+
+**Summary output:**
+- `csv_outputs_dir/summary_single_response_no_grps.csv`
+- `csv_outputs_dir/summary_single_response_eda.txt`
 
 ---
 
@@ -140,6 +145,9 @@ Cross-validates duplicates across both single-response and multi-response famili
 - Merge with `df_likely_dups` from the single-response stage
 - Boolean similarity check across multi-response columns
 - Flag respondents where `count_false > 0` as likely duplicates
+- Output is inline table of duplicate
+
+
 
 ---
 
@@ -212,6 +220,9 @@ parquet_outputs_dir/
     {col}_exploded_cleaned.parquet
     {col}_exploded.parquet
 
+final_outputs_dir
+    all files for the report*
+
 data_mart_staging/
     for_tableau.xlsx
     survey.duckdb
@@ -223,6 +234,7 @@ data_mart/
     survey.sqlite
 
 ```
+*[report](https://sandygcabanes.github.io/2025-2026-DEP-State-of-the-Community-Survey-Results/)
 
 ---
 
