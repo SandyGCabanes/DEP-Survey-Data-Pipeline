@@ -72,7 +72,7 @@ Handles all questions with a single answer per respondent.
 **Operations:**
 - Export raw unique values per column to `unique_dir/*.csv`
 - Manually review and create lookup tables in `lookup_dir/*_lookup.csv`
-  - Some columns require manual edits (free-text responses, AI-assisted matching not reliable)
+  - Some columns require human edits (free-text responses, AI-assisted matching not reliable)
   - Some columns require special label formatting
   - Some columns pass through directly without edits
 - Apply `apply_lookup()` to map raw values to clean labels
@@ -96,6 +96,7 @@ Handles all questions with a single answer per respondent.
 **Operations:**
 - Create `age_grp` via `pd.cut()` into standard age bands
 - Create `salary_broader` via match-case function for cross-role salary comparison
+- Create `region_ph` using Gemini API and human inspection
 
 **Outputs:**
 - `csv_outputs_dir/df_single_with_grps.csv`
@@ -151,18 +152,19 @@ Builds the geographic dataset powering the interactive respondent map.
 **Operations:**
 - Split into Philippine and overseas respondent groups
 - Apply `capital_lookup` for overseas city resolution
-- Clean and normalize city names via geopy
+- Clean and geocode via geopy
 - Build interactive map with folium
 - Merge into unified `df_all_geo_clean`
 
 **Output:**
-- `location_dir/df_all_geo_clean.csv`
+- `location_dir/df_all_geo_clean.csv`, `location_map_2026.html`
 
 ---
 
 ## Stage 6: Data Mart Export Layer
 
 Consolidates all cleaned outputs into analysis-ready formats for multiple consumers.
+Data_mart_staging and data_mart for storage
 
 ### DuckDB
 - `survey.duckdb`
@@ -201,6 +203,7 @@ csv_outputs_dir/
 
 location_dir/
     df_all_geo_clean.csv
+    location_map_2026.html
 
 parquet_outputs_dir/
     df_raw.parquet
@@ -209,13 +212,16 @@ parquet_outputs_dir/
     {col}_exploded_cleaned.parquet
     {col}_exploded.parquet
 
-final_outputs_dir/
-    df_single_with_grps.csv
+data_mart_staging/
     for_tableau.xlsx
-
-data_mart/
     survey.duckdb
     survey.sqlite
+
+data_mart/
+    for_tableau.xlsx
+    survey.duckdb
+    survey.sqlite
+
 ```
 
 ---
