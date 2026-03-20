@@ -27,6 +27,7 @@ See the companion report: [2025–2026 DEP State of the Community Survey Results
 
 The pipeline is organized into five families, each producing outputs consumed by downstream stages or directly by the report and dashboard layers.
 
+
 ```
 RAW LAYER
     └── df_raw
@@ -34,8 +35,10 @@ SINGLE-RESPONSE FAMILY
     └── df_single_no_grps → df_single_with_grps
 MULTI-RESPONSE FAMILY
     └── df_raw_multi → df_multi → {col}_exploded_cleaned
-LOCATION FAMILY
-    └── df_all_geo_clean
+LOCATION FAMILY (AI & API Layer)
+    ├── Gemini AI (Regional Classification)
+    ├── Geopy API (Coordinate Enrichment)
+    └── Folium (Visual HITL Validation)
 DATA MART EXPORT LAYER
     └── DuckDB, SQLite, Excel, Parquet
 ```
@@ -151,23 +154,25 @@ Cross-validates duplicates across both single-response and multi-response famili
 
 
 ---
-
 ## Stage 5: Location Family
-
 Builds the geographic dataset powering the interactive respondent map.
 
-**Input:** `df_single_with_grps`
-
+#### 5a. AI Regional Classification
+**Input:** `df_single_with_grps` (Unique City/Province strings)
 **Operations:**
-- Split into Philippine and overseas respondent groups
-- Apply `capital_lookup` for overseas city resolution
-- Clean and geocode via geopy
-- Build interactive map with folium
-- Merge into unified `df_all_geo_clean`
+* **Gemini AI Integration:** Utilizes the Gemini LLM to categorize unstructured location strings into five specific Philippine regions (Metro Manila, Balance Luzon, Visayas, Mindanao, or Unknown).
+* **Structured Output:** Implemented using **Pydantic schemas** to ensure the AI returns valid, type-safe JSON for seamless dataframe merging.
+* **Batch Processing:** Optimized API calls by batching 50 locations per request to manage latency and rate limits.
 
-**Output:**
-- `location_dir/df_all_geo_clean.csv`, `location_map_2026.html`
+### 5b. Geospatial API Enrichment
+**Operations:**
+* **Geopy API:** Automated the retrieval of precise Latitude and Longitude coordinates for each AI-categorized city.
+* **Validation Layer:** Cross-references the **AI-predicted region** against the **API-provided coordinates**.
+* **Human-in-the-Loop (HITL):** Generates a **Folium** map for visual inspection, allowing for manual correction of spatial outliers before final export.
 
+**Outputs:**
+* `location_dir/df_all_geo_clean.csv` (Enriched with AI regions and API coordinates)
+*  `location_map_2026.html`
 ---
 
 ## Stage 6: Data Mart Export Layer
