@@ -12,15 +12,16 @@ See the companion report: [2025–2026 DEP State of the Community Survey Results
 ## Tech Stack
 
 | Purpose | Tools |
-|---|---|
-| Pipeline development | Python (pandas, numpy) |
+| :--- | :--- |
+| Generative AI Classification | Gemini AI (Python SDK) |
+| Geospatial API Enrichment | geopy (Nominatim API) |
+| Pipeline development | Python (pandas, numpy, Pydantic) |
 | Notebook environment | Jupyter Notebook |
 | Duplicate detection | Similarity scoring (custom) |
-| Geographic processing | geopy, folium |
+| Geographic visualization | folium |
 | Data mart | DuckDB, SQLite |
 | Tableau-ready export | Excel (openpyxl) |
 | Serialization | Parquet (pyarrow) |
-
 ---
 
 ## Pipeline Overview
