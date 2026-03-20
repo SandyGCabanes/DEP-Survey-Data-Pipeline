@@ -1,0 +1,29 @@
+[ INGESTION ]
+      |
+      V
+[ STAGE 1: AI CLASSIFICATION (Gemini 2.0) ]
+      |-- Logic: Maps "Clean City" -> "PH Region"
+      |-- Tool: Pydantic Schema Enforcement
+      |
+      V
++---------------------------------------------+
+|  HITL CHECK #1: CATEGORICAL VALIDATION      |
+|  Action: Export to CSV -> Review in VSCode  |  <-- "Is 'Davao' classified as 'Mindanao'?"
+|  Goal: Correct LLM "Hallucinations"         |
++---------------------------------------------+
+      |
+      V
+[ STAGE 2: SPATIAL ENRICHMENT (Geopy API) ]
+      |-- Logic: Maps "Clean City" -> "Lat / Long"
+      |-- Tool: Nominatim Geocoder
+      |
+      V
++---------------------------------------------+
+|  HITL CHECK #2: SPATIAL VALIDATION          |
+|  Action: Open Folium HTML in Browser        |  <-- "Is the marker in the right region?"
+|  Goal: Correct Geocoding "Drift"            |
++---------------------------------------------+
+      |
+      V
+[ FINAL DATA MART EXPORT ]
+(DuckDB / SQLite / Tableau-ready Excel)
