@@ -2,8 +2,27 @@
       |
       V
 [ STAGE 1: AI CLASSIFICATION (Gemini 2.0) ]
-      |-- Logic: Maps "Clean City" -> "PH Region"
-      |-- Tool: Pydantic Schema Enforcement
+[ RAW INPUT ]
+"Davao City", "Caloocan", "Cebu", "Mandaluyong..."
+      |
+      V
+[ PROMPT BUNDLE ]
+"Categorize these 50 items into: 
+Metro Manila, Balance Luzon, Visayas, Mindanao"
+      |
+      V
+[ GEMINI 2.0 FLASH ] (Reasoning Engine)
+      |
+      |-- Processes fuzzy names (e.g., "QC" -> Metro Manila)
+      |-- Maps to the requested categories
+      |
+      V
+[ PYDANTIC SCHEMA ENFORCEMENT ] (Bouncer)
+      |
+      |-- CHECK: Is the output valid JSON?
+      |-- CHECK: Is the Region exactly from the allowed list?
+      |-- IF NO: Reject/Error
+      |-- IF YES: Pass to Dataframe
       |
       V
 +---------------------------------------------+
