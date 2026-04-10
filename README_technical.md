@@ -106,8 +106,7 @@ secrets (stdlib)
 geopy
 folium
 duckdb
-openpyxl
-thefuzz (fuzzy matching)
+openpyxl (implicitly called by pandas for xlsx read/write)
 google-genai (Gemini API, used for city-region lookup generation)
 ```
 
