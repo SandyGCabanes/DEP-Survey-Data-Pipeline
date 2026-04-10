@@ -16,7 +16,7 @@ Metro Manila, Balance Luzon, Visayas, Mindanao"
       V
 [ GEMINI 2.0 FLASH ] (Reasoning Engine)
       |
-      |-- Processes fuzzy names (e.g., "QC" -> Metro Manila)
+      |-- Processes standardized names
       |-- Maps to the requested categories
       |
       V
