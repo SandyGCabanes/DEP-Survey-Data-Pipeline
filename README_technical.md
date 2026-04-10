@@ -1,5 +1,4 @@
-# Survey Data Cleaning - Detailed Version of Phase 1
-
+# Survey Data Cleaning - Technical Version 
 **DEP Annual Survey 2026 — Data Cleaning & Pipeline Notebook**
 
 ---
