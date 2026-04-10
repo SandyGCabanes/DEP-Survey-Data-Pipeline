@@ -1,4 +1,4 @@
-# survey_data_cleaning
+# Survey Data Cleaning - Detailed Version of Phase 1
 
 **DEP Annual Survey 2026 — Data Cleaning & Pipeline Notebook**
 
@@ -6,17 +6,23 @@
 
 ## Problem
 
-Raw survey exports from Google Forms or similar platforms are not analysis-ready. They arrive with inconsistent column headers, free-text responses in structured fields, comma-delimited multi-select answers packed into single cells, messy location data, and no respondent identifiers. Downstream chart scripts and crosstab tables depend on clean, standardized values — anything less produces incorrect percentages or broken joins.
+Raw survey exports from Google Forms or similar platforms are not analysis-ready. They arrive with inconsistent column headers, free-text responses in structured fields, comma-delimited multi-select answers packed into single cells, messy location data, and respondent identifiers. Downstream chart scripts and crosstab tables depend on clean, standardized values — anything less produces incorrect percentages or broken joins.
 
-This notebook addresses that gap end-to-end: from raw `.csv` ingestion through a fully structured data mart ready for analytical consumers.
+## Solution
+This notebook addresses that gap end-to-end: from raw `.csv` ingestion through a fully structured data mart ready for analytical consumers.  This is the first phase.
+* Phase 1: clean and standardized files for crosstab, plotly dashboard, summary, Tableau dashboard
+* Phase 2: crosstab generation using round-robin significance testing at 95% confidence level.  
+* Phase 3: plotly dashboards exported as standalone html webpages with embedded json aggregated data.
+* Phase 4: html summary, using lightweight docx to html converter. Docx file has embedded directives to associate with css classes. Includes deepdive analysis of satisfaction using machine learning, and combo tools analysis.
+* Phase 5: Tableau public dashboard, mobile version and desktop version.
 
 ---
 
 ## What This Notebook Does
 
-The notebook runs a sequential pipeline with ten numbered stages. Each stage produces intermediate checkpoints (`.csv`, `.parquet`) so individual stages can be rerun independently without re-executing the full pipeline.
+The notebook runs a sequential pipeline with ten sections. Each section produces intermediate checkpoints (`.csv`, `.parquet`) so individual sections can be rerun independently without re-executing the full pipeline. **Human-in-the-loop** (hitl) is a key part of the iterations, especially in the Gemini and geopy API calls.
 
-| Stage | Description |
+| Section | Description |
 |---|---|
 | **0** | Imports, config, directory scaffolding |
 | **1** | Raw data ingestion, column renaming (raw → transformed) |
@@ -85,7 +91,7 @@ All cleaned tables — `df_single_with_grps`, plus one exploded table per multi-
 | `location_map_2026.html` | Interactive Folium map of respondent locations |
 | `survey2026.duckdb` | Full data mart (DuckDB) |
 | `survey2026.sqlite` | Full data mart (SQLite) |
-| `survey2026_data_mart.xlsx` | Excel export of key tables |
+| `for_tableau_2026.xlsx` | Excel export of key tables for Tableau ingestion |
 | `final_outputs/` | Promoted clean outputs for downstream consumers |
 
 ---
@@ -132,11 +138,11 @@ project_root/
 
 ## Usage Notes
 
-- **Rerunning individual stages:** Each stage reads from a checkpoint file. To rerun stage 7 only, reload `df_raw.parquet` at the top of that section — no need to re-execute stages 1–6.
+- **Rerunning individual stages:** Each section reads from a checkpoint file. To rerun section 7 only, reload `df_raw.parquet` at the top of that section — no need to re-execute stages 1–6.
 - **Lookup file edits:** Type 3 lookup CSVs in `lookup_dir/` require human review before `apply_lookup()` is called. The notebook will flag unmatched values in the output so gaps are visible.
 - **Geocoding runtime:** Stage 8 geocoding takes approximately 35–40 minutes due to Nominatim rate limits. Run it separately or skip it if location data is not needed for the current output.
 - **Duplicate resolution:** `df_possible_duplicates.csv` is a flagged list, not a removal list. Manual confirmation is required before any respondent is dropped.
 
 ---
 
-*Part of the DEP Annual Survey 2026 data pipeline. Built by [Sandy G. Cabanes](https://linkedin.com/in/sandygcabanes).*
+*Part of the DEP Annual Survey 2026 data pipeline. Data pipeline architect and builder: [Sandy G. Cabanes](https://linkedin.com/in/sandygcabanes).*
