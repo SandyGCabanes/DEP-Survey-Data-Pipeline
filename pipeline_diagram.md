@@ -6,7 +6,7 @@
 └─────────────────────────────────────────────────────────────────────┘
 
  ┌───────────────────────────────────┐
- │  STAGE 0 — Setup                  │
+ │  SECTION 0 — Setup                │
  │  Imports · Config · Directories   │
  │  lookup_dir/ · parquet_dir/       │
  │  csv_outputs_dir/ · location_dir/ │
@@ -14,14 +14,14 @@
                 │
                 ▼
  ┌───────────────────────────────────┐
- │  STAGE 1 — Ingest & Rename        │
+ │  SECTION 1 — Ingest & Rename      │
  │  csv_raw.csv → df_raw             │
  │  rename_map: verbose → snake_case │
  └──────────────┬────────────────────┘
                 │
                 ▼
  ┌───────────────────────────────────┐
- │  STAGE 2 — Global Cleaning        │
+ │  SECTION 2 — Global Cleaning      │
  │  Strip · normalize font           │
  │  Collapse spaces · title-case     │
  │  Fill nulls → "Not Applicable"    │
@@ -29,7 +29,7 @@
                 │
                 ▼
  ┌───────────────────────────────────┐
- │  STAGE 3 — IDs & Location Checks  │
+ │  SECTION 3 — IDs & Location Checks│
  │  Add resp_id, resp_id_rand        │
  │  Null audit · city integrity      │
  │  Manual spot edits (city_ph)      │
@@ -42,7 +42,7 @@
 │  SINGLE-RESP   │  │  MULTI-RESP                        │
 │  PIPELINE      │  │  PIPELINE                          │
 │                │  │                                    │
-│ STAGE 4        │  │ STAGE 7                            │
+│ SECTION 4      │  │ SECTION 7                          │
 │ Lookup Files   │  │ Filter multi cols → df_multi       │
 │ ┌────────────┐ │  │ Pre-clean: MS Fabric comma fix     │
 │ │ Type 1:    │ │  │ Fuzzy match: attended cols         │
@@ -53,7 +53,7 @@
 │ │ Manual     │ │  │ Theme classify:                    │
 │ └────────────┘ │  │  attended_online  (substring map)  │
 │                │  │  attended_inperson (substring map) │
-│ STAGE 5        │  │                                    │
+│ SECTION 5      │  │                                    │
 │ apply_lookup() │  │ datarole / restofrole dedup        │
 │ Similarity     │  │                                    │
 │ duplicate flag │  │ Second-pass normalize              │
@@ -64,7 +64,7 @@
         │                        │
         ▼                        │
 ┌────────────────┐               │
-│ STAGE 6        │               │
+│ SECTION 6      │               │
 │ Derived Groups │               │
 │ age_grp        │               │
 │ salary_broader │               │
@@ -78,14 +78,14 @@
         │                        │
         ▼                        │
 ┌───────────────────────────────────┐
-│  STAGE 7i — Full Duplicate Check  │
+│  SECTION 7i — Full Duplicate Check│
 │  Single + multi combined scoring  │
 │  → df_possible_duplicates.csv *   │
 └──────────────┬────────────────────┘
                │
                ▼
 ┌───────────────────────────────────┐
-│  STAGE 8 — Location Enrichment    │
+│  SECTION 8 — Location Enrichment  │
 │  Capital city fallback (non-PH)   │
 │  Nominatim geocode: PH + non-PH   │
 │  Manual anomaly corrections       │
@@ -95,7 +95,7 @@
                │
                ▼
 ┌───────────────────────────────────┐
-│  STAGE 9 — Data Mart Assembly     │
+│  SECTION 9 — Data Mart Assembly   │
 │  DuckDB: all tables registered    │
 │  SQLite: lightweight mirror       │
 │  → survey2026.duckdb *            │
@@ -104,7 +104,7 @@
                │
                ▼
 ┌───────────────────────────────────┐
-│  STAGE 10 — Promotion & Export    │
+│  SECTION 10 — Promotion & Export  │
 │  staging/ → data_mart/            │
 │  Excel export of key tables       │
 │  final_outputs/ copy              │
