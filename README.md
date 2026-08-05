@@ -7,6 +7,8 @@ End-to-end data cleaning, transformation, and export pipeline for the DEP annual
 
 See the companion report: [2025–2026 DEP State of the Community Survey Results](https://sandygcabanes.github.io/2025-2026-DEP-State-of-the-Community-Survey-Results/)
 
+[Github repo for report here](https://github.com/SandyGCabanes/2025-2026-DEP-State-of-the-Community-Survey-Results)
+
 ---
 
 ## Tech Stack
@@ -195,9 +197,9 @@ Data_mart_staging and data_mart for storage
 - Output: `final_outputs_dir/for_tableau.xlsx`
 
 ### Final Consumption
-- Tableau connects to DuckDB or `for_tableau.xlsx`
+- Tableau connects `for_tableau.xlsx`
 - SQLite used for quick SQL validation queries
-- Python [report](https://sandygcabanes.github.io/2025-2026-DEP-State-of-the-Community-Survey-Results/) scripts consume `final_outputs_dir/df_single_with_grps.csv` and `*_exploded_cleaned.csv` directly
+- Python [report scripts](https://github.com/SandyGCabanes/2025-2026-DEP-State-of-the-Community-Survey-Results) consume `final_outputs_dir/df_single_with_grps.csv` and `*_exploded_cleaned.csv` directly
 
 ---
 
@@ -242,6 +244,7 @@ data_mart/
 
 ```
 *[report](https://sandygcabanes.github.io/2025-2026-DEP-State-of-the-Community-Survey-Results/)
+*[Github repo for report here](https://github.com/SandyGCabanes/2025-2026-DEP-State-of-the-Community-Survey-Results)
 
 ---
 
